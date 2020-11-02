@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../CRUDAPI/.idea/CRUDAPI.iml" filepath="$PROJECT_DIR$/../CRUDAPI/.idea/CRUDAPI.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/GoodNeighbour.iml" filepath="$PROJECT_DIR$/.idea/GoodNeighbour.iml" />
     </modules>
   </component>
