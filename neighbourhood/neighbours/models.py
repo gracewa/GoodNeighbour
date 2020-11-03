@@ -6,7 +6,7 @@ from django.dispatch import receiver
 class Neighbourhood(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
-    admin = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    admin = models.ForeignKey('auth.User',null=True, blank=True,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -55,3 +55,22 @@ class EmergencyService(models.Model):
 
     def __str__(self):
         return self.name
+
+class BlogPost(models.Model):
+    title = models.CharField(max_length=150)
+    post = models.TextField()
+    username = models.ForeignKey(User,on_delete=models.CASCADE)
+    neighbourhood= models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)
+    post_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+class Comment(models.Model):
+    title = models.CharField(max_length=100)
+    comment = models.TextField()
+    username = models.ForeignKey(User,on_delete=models.CASCADE)
+    post = models.ForeignKey(BlogPost,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
