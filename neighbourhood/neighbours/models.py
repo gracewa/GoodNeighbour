@@ -1,12 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.conf import settings
 
 class Neighbourhood(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
-    admin = models.ForeignKey('auth.User',null=True, blank=True,on_delete=models.CASCADE)
+    admin = models.ForeignKey(settings.AUTH_USER_MODEL,null=True, blank=True,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -18,20 +19,76 @@ class Neighbourhood(models.Model):
     def delete_neighbourhood(cls,name):
         cls.objects.filter(name=name).delete()
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, blank=True)
-    neighbourhood = models.ForeignKey(Neighbourhood, null=True, blank=True, on_delete=models.CASCADE)
-    status = models.CharField(max_length=100)
+class UserManager(BaseUserManager):
+    def create_user(self, email, username,firstname,county, estate, password=None):
+        if not email:
+            raise ValueError('Users must have an email address')
+        if not username:
+            raise ValueError('Users must have a username')
+        if not firstname:
+            raise ValueError('Users must have a  first name')
+        if not estate:
+            raise ValueError('Users must enter a county name')
+        if not county:
+            raise ValueError('Users must enter an estate name')
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+        user = self.model(
+            email=self.normalize_email(email),
+            username=username,
+            firstname = firstname,
+            estate = estate,
+            county = county
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    def create_superuser(self, email, username,firstname,county, estate, password):
+        user = self.create_user(
+            email=self.normalize_email(email),
+            password=password,
+            username=username,
+            firstname=firstname,
+            estate=estate,
+            county=county
+        )
+
+        user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
+
+class User(AbstractBaseUser):
+    email = models.EmailField(verbose_name='email', max_length=100, unique=True)
+    username = models.CharField(max_length=100, unique=True)
+    firstname = models.CharField(max_length=100)
+    estate = models.CharField(max_length=100)
+    county = models.CharField(max_length=100)
+    status = models.CharField(max_length=100, default='user')
+    hood = models.ForeignKey(Neighbourhood, null=True, blank=True, on_delete=models.CASCADE)
+    date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
+    last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
+    is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email', 'firstname', 'county', 'estate']
+
+    objects = UserManager()
+
+    def __str__(self):
+        return self.username
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return True
+
+
 
 class Business(models.Model):
     name =models.CharField(max_length=100)
@@ -39,7 +96,7 @@ class Business(models.Model):
     email = models.EmailField()
     location =models.CharField(max_length=100)
     phone = models.IntegerField()
-    owner = models.ForeignKey(User,on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
 
 
@@ -59,7 +116,7 @@ class EmergencyService(models.Model):
 class BlogPost(models.Model):
     title = models.CharField(max_length=150)
     post = models.TextField()
-    username = models.ForeignKey(User,on_delete=models.CASCADE)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     neighbourhood= models.ForeignKey(Neighbourhood,on_delete=models.CASCADE)
     post_date = models.DateTimeField(auto_now_add=True)
 
@@ -69,7 +126,7 @@ class BlogPost(models.Model):
 class Comment(models.Model):
     title = models.CharField(max_length=100)
     comment = models.TextField()
-    username = models.ForeignKey(User,on_delete=models.CASCADE)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     post = models.ForeignKey(BlogPost,on_delete=models.CASCADE)
 
     def __str__(self):

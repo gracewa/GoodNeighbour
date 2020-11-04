@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'neighbours'
 ]
 
+AUTH_USER_MODEL = 'neighbours.User'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

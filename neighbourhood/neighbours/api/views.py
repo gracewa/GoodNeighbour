@@ -1,9 +1,8 @@
 from rest_framework.generics import ListCreateAPIView, get_object_or_404, RetrieveUpdateAPIView
 from rest_framework.response import Response
 
-from .serializers import NeighbourhoodSerializer, UserSerializer, ProfileSerializer
-from ..models import Neighbourhood, Business, EmergencyService, Profile
-from django.contrib.auth.models import User
+from .serializers import NeighbourhoodSerializer, UserSerializer
+from ..models import Neighbourhood, Business, EmergencyService, User
 
 
 class NeighbourhoodView(ListCreateAPIView):
@@ -46,6 +45,3 @@ class SingleUserView(RetrieveUpdateAPIView):
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
-class ProfileView(ListCreateAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer

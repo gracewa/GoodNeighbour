@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from ..models import Neighbourhood, Business, EmergencyService, Profile
-from django.contrib.auth.models import User
+from ..models import Neighbourhood, Business, EmergencyService, User
 
 
 
@@ -14,7 +13,3 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username','email')
 
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ('user', 'name', 'status')

@@ -1,0 +1,13 @@
+{%extends "registration/base.html"%}
+{% load bootstrap4 %}
+{% block content %}
+<div class="panel-body">
+
+          {% for hood in object_list %}
+    <li>{{ hood.name }}</li>
+{% empty %}
+    <li>No Neighbourhoods yet.</li>
+{% endfor %}
+
+        </div>
+{% endblock %}
