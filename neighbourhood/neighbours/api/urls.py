@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import NeighbourhoodView, SingleNeighbourhoodView, SingleUserView, UserView
+from .views import NeighbourhoodView, SingleNeighbourhoodView, SingleUserView, UserView, ProfileView
 
 
 app_name = "api"
@@ -11,4 +11,5 @@ urlpatterns = [
     path('hoods/<int:pk>/', SingleNeighbourhoodView.as_view(), name='SingleNeighbourhoodView'),
     path('users/', UserView.as_view(), name='UserView'),
     path('users/<int:pk>/', SingleUserView.as_view(), name='SingleUserView'),
+    path('profiles/', ProfileView.as_view(), name='ProfileView'),
 ]

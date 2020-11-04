@@ -20,7 +20,7 @@ class Neighbourhood(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.TextField(max_length=100, blank=True)
+    name = models.CharField(max_length=100, blank=True)
     neighbourhood = models.ForeignKey(Neighbourhood, null=True, blank=True, on_delete=models.CASCADE)
     status = models.CharField(max_length=100)
 
