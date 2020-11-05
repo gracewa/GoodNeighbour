@@ -14,8 +14,13 @@
                 <h5 class="card-title" id="card-title">{{ hood.name }}, {{hood.location}}</h5>
                 <div class="card-footer">
                     <div class="btn-wrapper text-center d-flex justify-content-between">
+                        <a class="btn btn-dark" href="/hoods/{{hood.pk}}/post/add/">Add Post</a><br>
+                        {% if request.user.is_staff %}
+                        <a class="btn btn-dark" href="/hoods/{{hood.pk}}/business/add/">Add Business</a><br>
+                        <a class="btn btn-dark" href="/hoods/{{hood.pk}}/service/add/">Add Emergency Service</a><br>
                         <a class="btn btn-dark" href="/hoods/{{hood.pk}}/update/">Edit Hood </a><br>
                         <a class="btn btn-dark" href="/hoods/{{hood.pk}}/delete/">Delete Hood </a>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -27,19 +32,91 @@
 </div>
 
 <div class="row">
+    <div class="col-md-12 d-flex justify-content-center">
+    {% if businesses %}
+    <h1>Businesses</h1>
+    {% endif %}
+    </div>
     {% for business in businesses %}
     <div class="col-md-5 offset-md-1">
         <div class="imageContainer">
             <div class="card mb-2">
 
-                <img class="card-img-top" src="{{hood.image.url}}" class="img-responsive" alt="Image">
+                <img class="card-img-top" src="{{business.image.url}}" class="img-responsive" alt="Image">
             </div>
             <div class="card-body">
-                <h5 class="card-title" id="card-title2">{{ business.name }}, {{hood.location}}</h5>
-                <a class="btn btn-dark" href="/business/{{hood.pk}}">View Business </a>
-                <a class="btn btn-dark" href="/business/{{hood.pk}}/update/">Edit Business </a><br>
-                <a class="btn btn-dark" href="/business/{{hood.pk}}/delete/">Delete Business </a>
+                <h5 class="card-title" id="card-title2">{{ business.name }}, {{business.location}}</h5>
+                <div class="text-center d-flex justify-content-between">
+                <p class="card-title" >{{ business.description }}</p>
+                <p class="card-title" >{{ business.phone }}</p>
+                </div>
+                {% if request.user.is_staff %}
+                <div class="card-footer">
+                    <div class="btn-wrapper text-center d-flex justify-content-between">
+                <a class="btn btn-dark" href="/business/{{business.pk}}/update/">Edit Business </a><br>
+                <a class="btn btn-dark" href="/business/{{business.pk}}/delete/">Delete Business </a>
+                    </div>
+                </div>
+                {% endif %}
 
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="row">
+    <div class="col-md-12 d-flex justify-content-center">
+    {% if services %}
+    <h1>Emergency Services</h1>
+    {% endif %}
+    </div>
+    {% for business in services %}
+    <div class="col-md-5 offset-md-1">
+        <div class="imageContainer">
+            <div class="card mb-2">
+
+                <img class="card-img-top" src="{{business.image.url}}" class="img-responsive" alt="Image">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" id="card-title3">{{ business.name }}, {{business.location}}</h5>
+                 {% if request.user.is_staff %}
+                <div class="card-footer">
+                    <div class="btn-wrapper text-center d-flex justify-content-between">
+                <a class="btn btn-dark" href="/service/{{business.pk}}/update/">Edit Service </a><br>
+                <a class="btn btn-dark" href="/service/{{business.pk}}/delete/">Delete Service </a>
+                    </div>
+                </div>
+                 {% endif %}
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="row">
+    <div class="col-md-12 d-flex justify-content-center">
+    {% if posts %}
+    <h1>Blog Posts</h1>
+    {% endif %}
+    </div>
+    {% for business in posts %}
+    <div class="col-md-5 offset-md-1">
+        <div class="imageContainer">
+            <div class="card mb-2">
+
+                <img class="card-img-top" src="{{business.image.url}}" class="img-responsive" alt="Image">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" id="card-title4">{{ business.name }}, {{business.location}}</h5>
+                <div class="card-footer">
+                    <div class="btn-wrapper text-center d-flex justify-content-between">
+                <a class="btn btn-dark" href="{{request.get_full_path }}/posts/{{business.pk}}/comment/add/">Add Comment</a><br>
+                         {% if request.user.is_staff %}
+                <a class="btn btn-dark" href="/post/{{business.pk}}/update/">Edit Post </a><br>
+                <a class="btn btn-dark" href="/post/{{business.pk}}/delete/">Delete Post </a>
+                         {% endif%}
+                    </div>
+                </div>
 
             </div>
         </div>

@@ -77,3 +77,9 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         exclude = ['username', 'post']
+
+
+class ServiceForm(forms.ModelForm):
+    class Meta:
+        model = EmergencyService
+        exclude = ['neighbourhood']

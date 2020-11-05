@@ -8,13 +8,19 @@
         <div class="imageContainer">
             <div class="card mb-2">
 
-                <img class="card-img-top" src="{{hood.image.url}}" class="img-responsive" alt="Image">
+                <img class="card-img-top" src="{{hood.image}}" class="img-responsive" alt="Image">
             </div>
             <div class="card-body">
                 <h5 class="card-title" id="card-title">{{ hood.name }}, {{hood.location}}</h5>
-                <a class="btn btn-dark" href="/hoods/{{hood.pk}}">View Hood </a>
-                <a class="btn btn-dark" href="/hoods/{{hood.pk}}/update/">Edit Hood </a><br>
-                <a class="btn btn-dark" href="/hoods/{{hood.pk}}/delete/">Delete Hood </a>
+                <div class="card-footer">
+                    <div class="btn-wrapper text-center d-flex justify-content-between">
+                        <a class="btn btn-dark" href="/hoods/{{hood.pk}}">View Hood </a>
+                        {% if request.user.is_staff %}
+                        <a class="btn btn-dark" href="/hoods/{{hood.pk}}/update/">Edit Hood </a><br>
+                        <a class="btn btn-dark" href="/hoods/{{hood.pk}}/delete/">Delete Hood </a>
+                        {% endif %}
+                    </div>
+                </div>
 
 
             </div>

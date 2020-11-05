@@ -3,13 +3,14 @@
 {% block content %}
 <div class="panel-body">
 
-          <form  action="/hoods/add/" method="post">
+          <form  action="{{request.get_full_path }}" method="post">
             {% csrf_token %}
             {% bootstrap_form form%}
 
             <div class="form-group">
               <input type="submit" class="btn btn-primary btn-sm" value="Submit">
             </div>
+
 
             <input type="hidden" name="next" value="{{next}}">
 
