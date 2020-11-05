@@ -17,7 +17,7 @@ This is a Django neighbourhood application that enables users to know what is ha
 1. Clone the repository
 
 ```bash
-git clone https://github.com/gracewa/GoodNeighbourgit
+git clone https://github.com/gracewa/GoodNeighbour.git
 ```
 2. Navigate into the project folder
 
