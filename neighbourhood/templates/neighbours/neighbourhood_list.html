@@ -1,13 +1,25 @@
-{%extends "registration/base.html"%}
+{%extends "base.html"%}
 {% load bootstrap4 %}
 {% block content %}
-<div class="panel-body">
 
-          {% for hood in object_list %}
-    <li>{{ hood.name }}</li>
-{% empty %}
-    <li>No Neighbourhoods yet.</li>
-{% endfor %}
+<div class="row">
+    {% for hood in object_list %}
+    <div class="col-md-5 offset-md-1">
+        <div class="imageContainer">
+            <div class="card mb-2">
 
+                <img class="card-img-top" src="{{hood.image.url}}" class="img-responsive" alt="Image">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" id="card-title">{{ hood.name }}, {{hood.location}}</h5>
+                <a class="btn btn-dark" href="/hoods/{{hood.pk}}">View Hood </a>
+                <a class="btn btn-dark" href="/hoods/{{hood.pk}}/update/">Edit Hood </a><br>
+                <a class="btn btn-dark" href="/hoods/{{hood.pk}}/delete/">Delete Hood </a>
+
+
+            </div>
         </div>
-{% endblock %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

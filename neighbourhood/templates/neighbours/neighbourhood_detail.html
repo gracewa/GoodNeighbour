@@ -1,0 +1,50 @@
+{%extends "base.html"%}
+{% load bootstrap4 %}
+{% block content %}
+
+<div class="row">
+    {% for hood in hood %}
+    <div class="col-md-6 offset-md-3">
+        <div class="imageContainer">
+            <div class="card mb-2">
+
+                <img class="card-img-top" src="{{hood.image.url}}" class="img-responsive" alt="Image">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" id="card-title">{{ hood.name }}, {{hood.location}}</h5>
+                <div class="card-footer">
+                    <div class="btn-wrapper text-center d-flex justify-content-between">
+                        <a class="btn btn-dark" href="/hoods/{{hood.pk}}/update/">Edit Hood </a><br>
+                        <a class="btn btn-dark" href="/hoods/{{hood.pk}}/delete/">Delete Hood </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row">
+    {% for business in businesses %}
+    <div class="col-md-5 offset-md-1">
+        <div class="imageContainer">
+            <div class="card mb-2">
+
+                <img class="card-img-top" src="{{hood.image.url}}" class="img-responsive" alt="Image">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" id="card-title2">{{ business.name }}, {{hood.location}}</h5>
+                <a class="btn btn-dark" href="/business/{{hood.pk}}">View Business </a>
+                <a class="btn btn-dark" href="/business/{{hood.pk}}/update/">Edit Business </a><br>
+                <a class="btn btn-dark" href="/business/{{hood.pk}}/delete/">Delete Business </a>
+
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
